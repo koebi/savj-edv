@@ -10,14 +10,14 @@ daten = {}
 with open(csvFilePath) as csvFile:
     csvReader = csv.DictReader(csvFile)
     for row in csvReader:
-        veranstaltung = row['Veranstaltung']
+        veranstaltung = row['Veranstaltung'].strip()
 
         daten[veranstaltung] = {
             "Start":row['Startdatum'],
             "Ende":row['Enddatum'],
             "PreisMitglied":int(float(row['SB Mitglied'])),
             "PreisNichtmitglied":int(float(row['SB Nichtmitglied'])),
-            "FrühbucherDatum":row['FB Datum'],
+            "FrühbucherDatum": row['FB Datum'] if len(row['FB Datum']) > 5 else "",
             "FrühbucherMitglied":int(float(row['FB Mitglied'])),
             "FrühbucherNichtmitglied":int(float(row['FB Nichtmitglied'])),
         }
