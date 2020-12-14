@@ -151,6 +151,19 @@ function update() {
   let preisFeld = document.getElementById('preis');
   let angezeigterPreis = 0;
 
+  // Altersberechnung
+  let alter = null;
+  if (startdatum.value && geburtsdatum.value) {
+    let veranstaltungsdatum = parseDate(startdatum);
+    let geburtstag = parseDate(geburtsdatum);
+    // js berechnet das Alter als Datum seit 01.01.1970, also ziehen wir
+    // 1970 ab um das Alter in Jahren zu bestimmen.
+    let alterSinceEpoch = new Date(
+      veranstaltungsdatum.getTime() - geburtstag.getTime()
+    );
+    alter = alterSinceEpoch.getFullYear() - 1970;
+  }
+
   /////////////////////
   // Preisberechnung //
   /////////////////////
@@ -174,6 +187,9 @@ function update() {
       } else {
         angezeigterPreis = preise[veranstaltung].PreisNichtmitglied;
       }
+    }
+    if (alter && veranstaltung == "Lust auf Abenteuer" && alter < 18) {
+      angezeigterPreis -= 5;
     }
     // Versicherung?
     if (hasVersicherung) {
@@ -205,31 +221,11 @@ function update() {
     mitgliedInfo.style.display = 'block';
   }
 
-  // Anzeige: Gesetzlicher Vertreter für Minderjährige
-  if (startdatum.value && geburtsdatum.value) {
-    let veranstaltungsdatum = parseDate(startdatum);
-    let geburtstag = parseDate(geburtsdatum);
-    // js berechnet das Alter als Datum seit 01.01.1970, also ziehen wir
-    // 1970 ab um das Alter in Jahren zu bestimmen.
-    let alterSinceEpoch = new Date(
-      veranstaltungsdatum.getTime() - geburtstag.getTime()
-    );
-    let alter = alterSinceEpoch.getFullYear() - 1970;
-
-    // Column mit Gesetzlichem Vertreter wird nur bei Minderjährigen gezeigt
-    if (alter >= 18) {
-      document.getElementById(
-        'fox-m161-textfield6-box'
-      ).parentNode.style.display = 'none';
-    } else {
-      document.getElementById(
-        'fox-m161-textfield6-box'
-      ).parentNode.style.display = 'block';
-    }
+  // Anzeige: Gesetzlicher Vertreter nur für Minderjährige
+  if (alter != null && alter < 18) {
+    document.getElementById('fox-m161-textfield6-box').parentNode.style.display = 'block';
   } else {
-    document.getElementById(
-      'fox-m161-textfield6-box'
-    ).parentNode.style.display = 'none';
+    document.getElementById('fox-m161-textfield6-box').parentNode.style.display = 'none';
   }
 
   // Anzeige: KontoinhaberVertreter = Kontoinhaber
