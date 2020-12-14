@@ -106,51 +106,6 @@ function update() {
     }
   }
 
-  // FuFa on Tour und Derneck Alternative
-  var fotOuterID = 'fox-m161-dropdown3';
-  var fotOuter = document.getElementById(fotOuterID);
-  fotOuter.setAttribute('onchange', 'update();');
-
-  var derneckAlternativOuterId = 'fox-m161-dropdown4';
-  var derneckAlternativOuter = document.getElementById(derneckAlternativOuterId);
-  derneckAlternativOuter.setAttribute('onchange', 'update();');
-
-  var fotFreitextID = 'fox-m161-textarea2';
-  var fotFreitext = document.getElementById(fotFreitextID);
-  fotFreitext.setAttribute('onchange', 'update();');
-
-  if (veranstaltung == 'FuFa on Tour') {
-    fotOuter.parentNode.parentNode.style.display = 'block';
-    fotFreitext.parentNode.parentNode.style.display = 'block';
-  } else {
-    fotOuter.parentNode.parentNode.style.display = 'none';
-    fotFreitext.parentNode.parentNode.style.display = 'none';
-  }
-
-  if (veranstaltung == 'Burg Derneck Alternativprogramm') {
-    derneckAlternativOuter.parentNode.parentNode.style.display = 'block';
-  } else {
-    derneckAlternativOuter.parentNode.parentNode.style.display = 'none';
-  }
-
-  var fotInnerID = 'fox_m161_dropdown3_chzn';
-  var fot = document.getElementById(fotInnerID);
-  var fotaktion = fot.childNodes[0].innerText.trim();
-
-  var derneckAlternativInnerId = 'fox_m161_dropdown4_chzn';
-  var derneckAlternativInner = document.getElementById(derneckAlternativInnerId);
-  var derneckAktion = derneckAlternativInner.childNodes[0].innerText.trim();
-
-  if (veranstaltung == 'FuFa on Tour' && fotaktion != '') {
-    startdatum.value = preise[fotaktion].Start;
-    enddatum.value = preise[fotaktion].Ende;
-    veranstaltung = fotaktion;
-  } else if (veranstaltung == 'Burg Derneck Alternativprogramm' && derneckAktion != '') {
-    startdatum.value = preise[derneckAktion].Start;
-    enddatum.value = preise[derneckAktion].Ende;
-    veranstaltung = derneckAktion;
-  }
-
   // Versicherung
   var versicherungID = document.querySelector('[data-content="Versicherung"]')
     .htmlFor;
