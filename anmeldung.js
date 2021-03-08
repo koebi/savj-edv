@@ -149,7 +149,7 @@ function update() {
   kontoinhaber.setAttribute('onchange', 'update();');
 
   let preisFeld = document.getElementById('preis');
-  let angezeigterPreis = 0;
+  let angezeigterPreis = null;
 
   // Altersberechnung
   let alter = null;
@@ -203,6 +203,35 @@ function update() {
     currency: 'EUR'
   });
   preisFeld.innerText = formatter.format(angezeigterPreis);
+
+  // Gratis-Veranstaltungen sollten keine IBAN verlangen
+  if (angezeigterPreis != null && angezeigterPreis <= 0) {
+	  ibanFeld = document.getElementById('fox-m161-textarea1');
+	  ibanFeld.innerText = "0".repeat(22);
+	  ibanFeld.parentNode.parentNode.style.display = 'none';
+	  bicFeld = document.getElementById('fox-m161-textfield13');
+	  bicFeld.parentNode.parentNode.style.display = 'none';
+	  bankFeld = document.getElementById('fox-m161-textfield15');
+	  bankFeld.parentNode.parentNode.style.display = 'none';
+	  document.getElementById('fox-m161-checkbox3-box').style.display = 'none';
+
+	  document.getElementById('Kontodaten-Abfrage').style.display = 'none';
+	  document.getElementById('fox-m161-checkbox4-box').style.display = 'none';
+  } else {
+	  ibanFeld = document.getElementById('fox-m161-textarea1');
+	  if (ibanFeld.innerText == "0".repeat(22)) {
+		  ibanFeld.innerText = '';
+	  }
+	  ibanFeld.parentNode.parentNode.style.display = 'block';
+	  bicFeld = document.getElementById('fox-m161-textfield13');
+	  bicFeld.parentNode.parentNode.style.display = 'block';
+	  bankFeld = document.getElementById('fox-m161-textfield15');
+	  bankFeld.parentNode.parentNode.style.display = 'block';
+	  document.getElementById('fox-m161-checkbox3-box').style.display = 'none';
+
+	  document.getElementById('Kontodaten-Abfrage').style.display = 'block';
+	  document.getElementById('fox-m161-checkbox4-box').style.display = 'block';
+  }
 
   // Anzeige: Abfrage Mitgliedsnummer für Mitglieder
   if (isMitglied) {
